@@ -14,12 +14,8 @@ build_format = '| {:25} | {:35} | {:18} | {:6} |'
 build_separator = '-' * 88
 
 default_boards = [
-    'cluenrf52840',
-    'cplaynrf52840',
-    'feather52832',
-    'feather52840',
-    'feather52840sense',
-    'itsybitsy52840'
+    'fobe_quill_nrf52840_mesh',
+    'fobe_idea_mesh_tracker_c1',
 ]
 build_boards = []
 
@@ -30,13 +26,13 @@ def get_sd(name):
         return 's140v7'
     else:
         # most of the board is 52840
-        return 's140v6'
+        return 's140v7'
 
 def build_a_example(arg):
     variant = arg[0]
     sketch = arg[1]
 
-    fqbn = "adafruit:nrf52:{}:softdevice={},debug=l0".format(variant, get_sd(variant))
+    fqbn = "fobe:nrf52:{}:softdevice={},debug=l0".format(variant, get_sd(variant))
 
     # succeeded, failed, skipped
     ret = [0, 0, 0]
@@ -53,7 +49,7 @@ def build_a_example(arg):
         success = SKIPPED
         ret[2] = 1
     else:
-        build_result = subprocess.run("arduino-cli compile --warnings all --fqbn {} {}".format(fqbn, sketch), shell=True,
+        build_result = subprocess.run("arduino-cli compile --warnings all --jobs 0 --fqbn {} {}".format(fqbn, sketch), shell=True,
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         # get stderr into a form where warning/error was output to stderr

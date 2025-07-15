@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a problem with the Adafruit nRF52 Arduino Core
+description: Report a problem with the FoBE nRF52 Arduino Core
 labels: 'Bug'
 body:
   - type: markdown
@@ -32,10 +32,10 @@ body:
   - type: input
     attributes:
       label: Board
-      placeholder: e.g Feather nRF52840 Express
+      placeholder: e.g Quill nRF52840 Mesh
     validations:
       required: true
-      
+
   - type: input
     attributes:
       label: BSP version
@@ -65,7 +65,7 @@ body:
       placeholder: |
         1. Go to '...'
         2. Click on '....'
-        3. See error      
+        3. See error
     validations:
       required: true
 

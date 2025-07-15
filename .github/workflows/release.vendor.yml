@@ -1,0 +1,119 @@
+name: Vendor Release
+
+on: [create]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    strategy:
+      fail-fast: false
+      matrix:
+        arduino-platform:
+          # Alphabetical order
+          - fobe_quill_nrf52840_mesh
+          - fobe_idea_mesh_tracker_c1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Cache Arduino Core and Libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.arduino15
+            ~/Arduino/libraries
+          key: ${{ runner.os }}-arduino-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-arduino-
+
+      - name: Install Python dependencies
+        run: |
+          pip3 install adafruit-nrfutil
+
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+
+      - name: Install BSP and Libraries
+        env:
+          BSP_URL: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+          BSP_PATH: .arduino15/packages/fobe/hardware/nrf52
+        run: |
+          arduino-cli config init --overwrite
+          arduino-cli core update-index
+          arduino-cli core update-index --additional-urls $BSP_URL
+          arduino-cli core install adafruit:nrf52 --additional-urls $BSP_URL
+
+          # Repalce release BSP with our code
+          BSP_VERSION=$(grep '^version=' $GITHUB_WORKSPACE/platform.txt | cut -d'=' -f2)
+          mkdir -p $HOME/.arduino15/packages/fobe/hardware/nrf52
+          rm -rf $HOME/$BSP_PATH/*
+          ln -s $GITHUB_WORKSPACE $HOME/$BSP_PATH/$BSP_VERSION
+
+          # Install library dependency
+          arduino-cli lib install "Adafruit AHRS" "Adafruit APDS9960 Library" "Adafruit Arcada Library" "Adafruit BMP280 Library" "Adafruit Circuit Playground" "Adafruit EPD" "Adafruit GFX Library" "Adafruit HX8357 Library" "Adafruit ILI9341" "Adafruit LIS3MDL" "Adafruit LSM6DS" "Adafruit NeoPixel" "Adafruit NeoMatrix" "Adafruit Sensor Calibration" "Adafruit SHT31 Library" "Adafruit SSD1306" "Adafruit ST7735 and ST7789 Library" "SdFat - Adafruit Fork"
+          arduino-cli lib install "MIDI Library" "Firmata"
+
+          # Arduino_TensorFlowLite is removed per maintainer request https://github.com/arduino/library-registry/pull/1748
+          # Find a way to compile later, skip TFL example for now
+          # arduino-cli lib install "Arduino_TensorFlowLite"
+
+          # Library summary
+          arduino-cli lib list
+
+      - name: Build examples
+        run: python3 tools/build_all.py ${{ matrix.arduino-platform }}
+
+  release:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'create' && github.event.ref_type == 'tag'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      - name: Create release artifacts
+        run: |
+          chmod +x tools/create_release.sh
+          ./tools/create_release.sh
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish firmware to fobe-projects.github.io
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.FOBE_ARTIFACT_PAGES_DEPLOY_KEY }}
+          external_repository: fobe-projects/fobe-projects.github.io
+          publish_branch: main
+          publish_dir: ./build
+          destination_dir: arduino/nrf52/${{ github.ref_name }}
+          keep_files: true
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+          commit_message: arduino/nrf52/${{ github.ref_name }}
+          enable_jekyll: true
