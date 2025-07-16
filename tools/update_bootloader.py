@@ -33,7 +33,7 @@ def download_variant(variant):
     f_zip = f'{variant}_bootloader-{version}_{sd}.zip'
     f_hex = f'{variant}_bootloader-{version}_{sd}.hex'
     f_uf2 = f'update-{variant}_bootloader-{version}_nosd.uf2'
-    url_prefix = f'https://github.com/adafruit/Adafruit_nRF52_Bootloader/releases/download/{version}/'
+    url_prefix = f'https://github.com/fobe-projects/fobe-nrf52-bootloader/releases/download/{version}/'
 
     # remove existing bootloader files
     if os.path.exists(f'bootloader/{variant}'):

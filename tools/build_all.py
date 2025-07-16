@@ -14,12 +14,7 @@ build_format = '| {:25} | {:35} | {:18} | {:6} |'
 build_separator = '-' * 88
 
 default_boards = [
-    'cluenrf52840',
-    'cplaynrf52840',
-    'feather52832',
-    'feather52840',
-    'feather52840sense',
-    'itsybitsy52840'
+    'fobe_quill_nrf52840_mesh',
 ]
 build_boards = []
 
@@ -36,7 +31,7 @@ def build_a_example(arg):
     variant = arg[0]
     sketch = arg[1]
 
-    fqbn = "adafruit:nrf52:{}:softdevice={},debug=l0".format(variant, get_sd(variant))
+    fqbn = "fobe:nrf52:{}:softdevice={},debug=l0".format(variant, get_sd(variant))
 
     # succeeded, failed, skipped
     ret = [0, 0, 0]
