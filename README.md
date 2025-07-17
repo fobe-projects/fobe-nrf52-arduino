@@ -62,9 +62,9 @@ Bootloader can be updated via UF2 file or DFU if already existed. Or flash on ne
 
 This only works with nRF52840 and require existing bootloader version is at least 0.4.0:
 
-- Quickly doulbe tap reset button to put your board in to bootloader mode. A mass storage device i.e `FTHR840BOOT` will appear
+- Quickly doulbe tap reset button to put your board in to bootloader mode. A mass storage device i.e `FoBE Boot` will appear
 - Download latest UF2 for your board i.e `update-{BOARD}-{version}_nosd.uf2` from [fobe-nrf52-bootloader release page](https://github.com/fobe-projects/fobe_nrf52_bootloader/releases)
-- Drap and drop the UF2 file into `Quill Boot` drive to perform update then wait until the board reset.x
+- Drap and drop the UF2 file into `FoBE Boot` drive to perform update then wait until the board reset.x
 
 ### Update Bootloader with DFU
 
