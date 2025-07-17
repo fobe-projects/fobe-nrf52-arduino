@@ -52,7 +52,7 @@ jobs:
           BSP_URL: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
           BSP_PATH: .arduino15/packages/fobe/hardware/nrf52
         run: |
-          arduino-cli config init
+          arduino-cli config init --overwrite
           arduino-cli core update-index
           arduino-cli core update-index --additional-urls $BSP_URL
           arduino-cli core install adafruit:nrf52 --additional-urls $BSP_URL
