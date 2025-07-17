@@ -48,7 +48,7 @@ def build_a_example(arg):
         success = SKIPPED
         ret[2] = 1
     else:
-        build_result = subprocess.run("arduino-cli compile --warnings all --fqbn {} {}".format(fqbn, sketch), shell=True,
+        build_result = subprocess.run("arduino-cli compile --warnings all --jobs 0 --fqbn {} {}".format(fqbn, sketch), shell=True,
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         # get stderr into a form where warning/error was output to stderr
