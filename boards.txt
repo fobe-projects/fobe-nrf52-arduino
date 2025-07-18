@@ -23,7 +23,7 @@ fobe_quill_nrf52840_mesh.upload.tool=nrfutil
 fobe_quill_nrf52840_mesh.upload.protocol=nrfutil
 fobe_quill_nrf52840_mesh.upload.use_1200bps_touch=true
 fobe_quill_nrf52840_mesh.upload.wait_for_upload_port=true
-fobe_quill_nrf52840_mesh.upload.maximum_size=815104
+fobe_quill_nrf52840_mesh.upload.maximum_size=811008
 fobe_quill_nrf52840_mesh.upload.maximum_data_size=237568
 
 # Build
@@ -35,17 +35,17 @@ fobe_quill_nrf52840_mesh.build.variant=fobe_quill_nrf52840_mesh
 fobe_quill_nrf52840_mesh.build.usb_manufacturer="FoBE Studio"
 fobe_quill_nrf52840_mesh.build.usb_product="FoBE Quill nRF52840 Mesh"
 fobe_quill_nrf52840_mesh.build.extra_flags=-DNRF52840_XXAA {build.flags.usb}
-fobe_quill_nrf52840_mesh.build.ldscript=nrf52840_s140_v6.ld
+fobe_quill_nrf52840_mesh.build.ldscript=nrf52840_s140_v7.ld
 fobe_quill_nrf52840_mesh.build.vid=0x239A
 fobe_quill_nrf52840_mesh.build.pid=0x8029
 fobe_quill_nrf52840_mesh.build.uf2_family=0xADA52840
 fobe_quill_nrf52840_mesh.build.openocdscript=scripts/openocd/daplink_nrf52.cfg
 
 # Menu: SoftDevice
-fobe_quill_nrf52840_mesh.menu.softdevice.s140v6=S140  6.1.1
-fobe_quill_nrf52840_mesh.menu.softdevice.s140v6.build.sd_name=s140
-fobe_quill_nrf52840_mesh.menu.softdevice.s140v6.build.sd_version=6.1.1
-fobe_quill_nrf52840_mesh.menu.softdevice.s140v6.build.sd_fwid=0x00B6
+fobe_quill_nrf52840_mesh.menu.softdevice.s140v7=S140  7.3.0
+fobe_quill_nrf52840_mesh.menu.softdevice.s140v7.build.sd_name=s140
+fobe_quill_nrf52840_mesh.menu.softdevice.s140v7.build.sd_version=7.3.0
+fobe_quill_nrf52840_mesh.menu.softdevice.s140v7.build.sd_fwid=0x0123
 
 # Menu: Debug Level
 fobe_quill_nrf52840_mesh.menu.debug.l0=Level 0 (Release)

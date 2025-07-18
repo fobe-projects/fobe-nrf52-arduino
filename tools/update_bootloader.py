@@ -22,7 +22,7 @@ def get_sd(name):
         return 's140_7.3.0'
     else:
         # most of the board is 52840
-        return 's140_6.1.1'
+        return 's140_7.3.0'
 
 
 # Download a variant's bootloader

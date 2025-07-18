@@ -25,7 +25,7 @@ def get_sd(name):
         return 's140v7'
     else:
         # most of the board is 52840
-        return 's140v6'
+        return 's140v7'
 
 def build_a_example(arg):
     variant = arg[0]
