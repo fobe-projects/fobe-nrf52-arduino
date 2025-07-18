@@ -59,7 +59,7 @@ fobe_quill_nrf52840_mesh.menu.debug.l3.build.debug_flags=-DCFG_DEBUG=3
 fobe_quill_nrf52840_mesh.menu.debug.l3.build.sysview_flags=-DCFG_SYSVIEW=1
 
 # Menu: Debug Port
-fobe_quill_nrf52840_mesh.menu.debug_output.serial=Serial (USB-CDC)
+fobe_quill_nrf52840_mesh.menu.debug_output.serial=Serial (CDC)
 fobe_quill_nrf52840_mesh.menu.debug_output.serial.build.logger_flags=-DCFG_LOGGER=0
 fobe_quill_nrf52840_mesh.menu.debug_output.serial1=Serial1 (UART)
 fobe_quill_nrf52840_mesh.menu.debug_output.serial1.build.logger_flags=-DCFG_LOGGER=1 -DCFG_TUSB_DEBUG=CFG_DEBUG
